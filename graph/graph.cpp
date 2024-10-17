@@ -36,6 +36,7 @@ Graph::Graph(std::string path, std::unordered_map<uint32_t, uint32_t>& label_map
     ifs >> type >> vcount_ >> ecount_;
     if (set_label_map && (vcount_ > 16 || ecount_ > 32))
     {
+	    // UNSURE IF NEED TO REMOVE< REMEMBER SPOT
         std::cout << "The query graph should have at most 16 vertices and 32 edges.\n";
         exit(-1);
     }
@@ -96,7 +97,8 @@ Graph::Graph(std::string path, std::unordered_map<uint32_t, uint32_t>& label_map
         else
         {
             uint32_t from_id, to_id;
-            ifs >> from_id >> to_id;
+	    float distance;
+            ifs >> from_id >> to_id >> distance;
             
             uint32_t offset = offsets_[from_id] + neighbors_offset[from_id];
             neighbors_[offset] = to_id;
@@ -106,6 +108,8 @@ Graph::Graph(std::string path, std::unordered_map<uint32_t, uint32_t>& label_map
 
             neighbors_offset[from_id]++;
             neighbors_offset[to_id]++;
+
+	    edges_.emplace_back(Edge{from_id, to_id, distance});
 
             if (elabel_freq_.find({vlabels_[from_id], vlabels_[to_id]}) == elabel_freq_.end())
             {
