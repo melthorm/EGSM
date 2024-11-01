@@ -9,11 +9,6 @@
 #include "utils/config.h"
 #include "utils/nucleus/nd.h"
 
-struct Edge {
-    uint32_t vertex1;
-    uint32_t vertex2;
-    float distance;  // Store the distance between vertices
-};
 
 class Graph
 {
@@ -32,7 +27,6 @@ public:
 
     std::unordered_map<uint32_t, uint32_t> vlabel_freq_;
     std::unordered_map<std::pair<uint32_t, uint32_t>, uint32_t> elabel_freq_;
-    std::vector<Edge> edges_;  // List of edges with distances
 public:
     Graph(std::string path, std::unordered_map<uint32_t, uint32_t>& label_map);
     ~Graph();
