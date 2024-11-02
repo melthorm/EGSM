@@ -51,7 +51,7 @@ add_library(link STATIC
     execution/execution.h execution/execution.cu)
 
 set_target_properties(link PROPERTIES
-    CUDA_ARCHITECTURES "70"
+    CUDA_ARCHITECTURES "80"
     CUDA_SEPARABLE_COMPILATION ON
     POSITION_INDEPENDENT_CODE ON)
 
@@ -70,7 +70,7 @@ add_executable(EGSM
     graph/operations.cpp)
 
 set_target_properties(EGSM PROPERTIES
-    CUDA_ARCHITECTURES "70"
+    CUDA_ARCHITECTURES "80"
     CUDA_SEPARABLE_COMPILATION ON
     POSITION_INDEPENDENT_CODE ON)
 
