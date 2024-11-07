@@ -60,6 +60,8 @@ def check_distances(original_graph, new_graph, match):
     if (len(match)-1> len(new_distances)):
         print(f"NOT SUCCESSFUL: Match has {len(match)-1} entries, distance has {len(new_distances)} entries")
         return False
+    
+    original_distances = []
     for i in range(len(match) - 1):
         vertex1, vertex2 = match[i], match[i + 1]
                # print(original_graph)
@@ -67,19 +69,34 @@ def check_distances(original_graph, new_graph, match):
        # print(vertex2)
         distance = original_graph.get(vertex1, {}).get(vertex2)
         if (distance != None):
-            #print(new_distances)
-            #print(distance)
-            if (distance in new_distances):
-                new_distances.remove(distance)
-            else:
-                print(f"NOT SUCCESSFUL: Distance {distance} of vertex {vertex1} to vertex {vertex2} not found in smaller graph")
-                return False
+            original_distances.append(distance)
         else:
             print(f"NOT SUCCESSFUL: Edge {vertex1} - {vertex2} not found in original graph")
             return False
-    print("SUCCESSFUL: All distances in original graph match distances in new graph.")
+    mapping = lists_equivalent(original_distances, new_distances)
+    if (not mapping):
+        print("FAIL")
+        return False
+    print("PASS")
     return True
 
+def lists_equivalent(list1, list2, tolerance=0.3):
+    #Sorted lists easier to use
+    sorted_list1 = sorted(list1)
+    sorted_list2 = sorted(list2)
+
+    if len(sorted_list1) != len(sorted_list2):
+        print(f"NOT SUCCESSFUL: Somehow, original_distance length not same as new_distance length")
+        return False
+    
+    # Iterate through all distances of two lsits and compare
+    for a, b in zip(sorted_list1, sorted_list2):
+        if abs(a - b) > tolerance:
+            print(f"NOT SUCCESSFUL: {a} in original_graph and {b} in new_graph not within {tolerance} tolerance")
+            return False
+
+    print("SUCCESSFUL: All distances in original graph match distances in new graph.")
+    return True
 
 def main():
     if len(sys.argv) != 4:
